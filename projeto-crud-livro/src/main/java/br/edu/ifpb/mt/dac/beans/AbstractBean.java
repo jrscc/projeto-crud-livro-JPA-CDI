@@ -15,7 +15,7 @@ public abstract class AbstractBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7887186144461468149L;
-
+//COMENTARIO
 	protected void reportarMensagemDeErro(String detalhe) {
 		reportarMensagem(true, detalhe);
 
