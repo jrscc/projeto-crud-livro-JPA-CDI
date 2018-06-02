@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<title><ui:insert name="title">Página principal</ui:insert></title>
+</h:head>
+
+<h:body>
+
+	<div id="header">
+		<ui:insert name="header">
+			<h:form id="formComun">
+				<p:menubar>
+					<p:submenu id="subMenu" label="actions" icon="fa fa-fw fa-gear">
+						<p:menuitem id="main" value="Página Principal" url="index.xhtml" rendered="#{PaginaPrincipal}" icon="fa fa-home"/>
+						<p:menuitem id="itemAdd" value="Adicionar item" url="item_edit.xhtml" rendered="#{AdicionarItem}" icon="fa fa-plus"/>
+						<p:menuitem id="selectItens" value="Selecionar Item" url="select_item.xhtml" rendered="#{SelecionarItem}" icon="fa fa-book"/>
+					</p:submenu>
+				</p:menubar>
+			</h:form>
+		</ui:insert>
+	</div>
+
+	<div id="content">
+		<ui:insert name="content" />
+	</div>
+
+	<div id="footer">
+		<p:panel columns="1" style="width : 100%; text-align:center" >
+			<h:outputLabel value="MarcosJr Aplicação - v8.0" />
+		</p:panel>
+	</div>
+</h:body>
+</html>

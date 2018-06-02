@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+<ui:composition template="/WEB-INF/templates/_comum_menu_rodape.xhtml">
+
+<ui:param name="PaginaPrincipal" value="false"/>
+<ui:param name="AdicionarItem" value="true"/>
+<ui:param name="SelecionarItem" value="true"/>
+
+	<ui:define name="content">
+
+		<p:messages id="idMessagesErrors" showDetail="true" closable="true"
+			severity="error">
+			<p:autoUpdate />
+		</p:messages>
+
+		<p:growl id="idMessages" showDetail="true" severity="info" />
+
+
+		<h:form id="formFiltro">
+
+			<h:panelGrid columns="2">
+				<f:facet name="caption">
+					<p:outputLabel value="Filtros" />
+				</f:facet>
+				<f:facet name="header">
+					<p:outputLabel value="Livros" />
+				</f:facet>
+
+				<p:outputLabel value="Titulo: " for="itFirstNameFiltro" />
+				<p:inputText id="itFirstNameFiltro"
+					value="#{index.itemFilter.titulo}" label="Titulo"
+					style="width:350px" />
+
+				<p:outputLabel value="Editora: " for="itLastNameFiltro" />
+				<p:inputText id="itLastNameFiltro"
+					value="#{index.itemFilter.editora}" label="Editora"
+					style="width:350px" />
+
+				<p:outputLabel value="ISBN: " for="itIsbnFiltro" />
+				<p:inputText id="itIsbnFiltro" value="#{index.itemFilter.isbn}" label="Isbn" style="width:350px" />
+
+				<p:outputLabel value="Data de Publicação range begin: "
+					for="itDataDePublicacaoRangeBeginFiltro" />
+				<p:inputText id="itDataDePublicacaoRangeBeginFiltro"
+					value="#{index.itemFilter.dataDePublicacaoRangeBegin}"
+					label="Data de publicação range begin" style="width:350px">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</p:inputText>
+
+				<p:outputLabel value="Data de Publicação range end: "
+					for="itDataDePublicacaoRangeEndFiltro" />
+				<p:inputText id="itDataDePublicacaoRangeEndFiltro"
+					value="#{index.itemFilter.dataDePublicacaoRangeEnd}"
+					label="Data de Publicação range end" style="width:350px">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</p:inputText>
+
+				<p:outputLabel value="Nº mínimo de páginas: "
+					for="itNPaginasRangeBeginFiltro" />
+				<p:inputText id="itNPaginasRangeBeginFiltro" value="#{index.itemFilter.paginaRangeBegin}"
+					label="Numero de páginas range begin" style="width:350px">
+				</p:inputText>
+
+				<p:outputLabel value="Nº máximo de páginas: "
+					for="itNPaginasRangeEndFiltro" />
+				<p:inputText id="itNPaginasRangeEndFiltro" value="#{index.itemFilter.paginaRangeEnd}"
+					label="Numero de páginas range end" style="width:350px">
+				</p:inputText>
+
+				<p:outputLabel for="group" value="Group:" />
+				<p:selectOneMenu id="group" value="#{index.itemFilter.group}"
+					label="Group">
+					<f:selectItem itemLabel="Selecione" itemValue="#{null}" />
+					<f:selectItems value="#{index.getGroups()}" var="g"
+						itemLabel="#{g.nome}" itemValue="#{g}" />
+				</p:selectOneMenu>
+
+				<p:commandButton id="btnFiltrarBotao" value="Buscar"
+					style="width:120px" action="#{index.filtrar()}" update="@form" />
+				<p:commandButton id="btnLimparBotao" value="Limpar"
+					style="width:120px" action="#{index.limpar()}" update="@form" />
+			</h:panelGrid>
+
+
+
+			<p:dataTable id="dataTableUsuarios" border="1" var="item"
+				value="#{index.itens}">
+				<p:column>
+					<f:facet name="header">ID</f:facet>
+					<p:outputLabel value="#{item.id}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Group</f:facet>
+					<p:outputLabel value="#{item.group.nome}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">ISBN</f:facet>
+					<p:outputLabel value="#{item.isbn}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Titulo</f:facet>
+					<p:outputLabel value="#{item.titulo}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Editora</f:facet>
+					<p:outputLabel value="#{item.editora}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Data de Publicação</f:facet>
+					<p:outputLabel value="#{item.dataDePublicacao}">
+						<f:convertDateTime pattern="dd-MM-yyyy" />
+					</p:outputLabel>
+				</p:column>
+				<p:column>
+					<f:facet name="header">Paginas</f:facet>
+					<p:outputLabel value="#{item.paginas}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Assunto</f:facet>
+					<p:outputLabel value="#{item.assunto}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Tags</f:facet>
+					<p:outputLabel value="#{item.tags}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Operations</f:facet>
+					<p:link outcome="item_edit.xhtml" value="Edit Item">
+						<f:param name="item" value="#{item.id}" />
+					</p:link>
+					<p:outputLabel value=" " />
+					<p:outputLabel value=" " />
+					<p:commandLink value="Delete Item" action="#{index.delete(item)}">
+						<p:confirm header="Confirmação!"
+							message="Quer Mesmo deletar #{item.titulo} ?"
+							icon="ui-icon-alert" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+		<p:confirmDialog id="confirmDialog" global="true" showEffect="fade"
+			hideEffect="fade">
+			<p:commandButton id="confirmYes" value="Yes"
+				styleClass="ui-confirmdialog-yes" icon="fa fa-remove" />
+			<p:commandButton id="confirmNo" value="No"
+				styleClass="ui-confirmdialog-no" icon="fa fa-ban" />
+		</p:confirmDialog>
+
+
+	</ui:define>
+</ui:composition>
+</html>

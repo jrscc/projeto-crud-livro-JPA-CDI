@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/WEB-INF/templates/_comum_menu_rodape.xhtml">
+
+<ui:param name="PaginaPrincipal" value="true"/>
+<ui:param name="AdicionarItem" value="false"/>
+<ui:param name="SelecionarItem" value="true"/>
+
+	<f:metadata>
+		<f:viewParam name="item" value="#{itemEdit.item}" />
+		<!-- <f:event listener="#{userEdit.init()}" type="preRenderView" /> -->
+		<f:viewAction action="#{itemEdit.init()}" />
+	</f:metadata>
+
+	<h:head>
+		<title>Item create/edit</title>
+	</h:head>
+
+	<ui:define name="content">
+
+		<p:growl id="idMessages" showDetail="true" severity="info" />
+
+
+		<p:messages id="idMessagesErrors" showDetail="true" closable="true"
+			severity="error"> <p:autoUpdate/> </p:messages>
+
+		<h:form id="formEdit">
+
+			<h:panelGrid columns="2">
+				<f:facet name="header">Item Biblioteca</f:facet>
+
+				<p:outputLabel value="Id:" rendered="#{itemEdit.edicaoDeUsuario}" />
+				<p:outputLabel value="#{itemEdit.item.id}"
+					rendered="#{itemEdit.edicaoDeUsuario}" />
+
+				<p:outputLabel for="titulo" value="Titulo:" />
+				<p:inputText id="titulo" value="#{itemEdit.item.titulo}"
+					label="Titulo" />
+
+				<p:outputLabel for="editora" value="Editora:" />
+				<p:inputText id="editora" value="#{itemEdit.item.editora}"
+					label="Editora" />
+
+				<p:outputLabel for="dataDePublicacao" value="Data de Publicação:" />
+				<p:inputText id="dataDePublicacao"
+					value="#{itemEdit.item.dataDePublicacao}" label="dataDePublicacao">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</p:inputText>
+
+				<p:outputLabel for="descricao" value="Descrição:" />
+				<p:inputText id="descricao" value="#{itemEdit.item.descricao}"
+					label="descricao" />
+
+				<p:outputLabel for="group" value="Group:" />
+				<p:selectOneMenu id="group" value="#{itemEdit.item.group}"
+					label="Group" hideNoSelectionOption="true" required="true">
+					<f:selectItem itemLabel="Selecione" itemValue="#{null}"
+						noSelectionOption="true" />
+					<f:selectItems value="#{itemEdit.getGroups()}" var="g"
+						itemLabel="#{g.nome}" itemValue="#{g}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="isbn" value="ISBN:" />
+				<p:inputText id="isbn" value="#{itemEdit.item.isbn}" label="Isbn"
+					required="true">
+					<f:validator validatorId="isbnvalidador"></f:validator>
+				</p:inputText>
+
+				<p:outputLabel for="paginas" value="Páginas:" />
+				<p:inputText id="paginas" value="#{itemEdit.item.paginas}"
+					label="Paginas" required="true" />
+
+				<p:outputLabel for="assunto" value="Assunto:" />
+				<p:inputText id="assunto" value="#{itemEdit.item.assunto}"
+					label="Assunto" required="true" />
+
+				<p:outputLabel for="tags" value="Tags:" />
+				<p:inputText id="tags" value="#{itemEdit.item.tags}" label="Tags"
+					required="true" />
+
+			</h:panelGrid>
+
+			<h:panelGrid columns="2">
+				<p:commandButton action="#{itemEdit.saveUser}" style="width:120px"
+					value="Salvar" />
+				<p:button outcome="index.xhtml" style="width:120px" value="Cancelar" />
+			</h:panelGrid>
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
